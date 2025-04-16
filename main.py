@@ -20,7 +20,8 @@ refresh = st.sidebar.button("🔄 Refresh Projections")
 
 # Fetch today's games and starting pitchers
 games = get_today_games()
-pitchers = get_starting_pitchers(game["gamePk"])
+for game in games:
+    pitchers = get_starting_pitchers(game["gamePk"])
 # Placeholder for projection results
 projections = []
 
