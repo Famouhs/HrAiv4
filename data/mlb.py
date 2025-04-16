@@ -12,14 +12,28 @@ def get_today_games():
     return games[0]["games"] if games else []
 
 def get_starting_pitchers(game_id):
-    url = f"{BASE_URL}/game/{game_id}/boxscore"
-    response = requests.get(url).json()
-    teams = response["teams"]
-    return {
+    try:
+        url = f"https://statsapi.mlb.com/api/v1/game/{game_id}/boxscore"
+        response = requests.get(url).json()
+
+        home_id = response["teams"]["home"]["pitchers"][0]
+        away_id = response["teams"]["away"]["pitchers"][0]
+
+        home_pitcher = response["teams"]["home"]["players"][f"ID{home_id}"]["person"]["fullName"]
+        away_pitcher = response["teams"]["away"]["players"][f"ID{away_id}"]["person"]["fullName"]
+
+        return {
+            "game_id": game_id,
+            "home_pitcher": home_pitcher,
+            "away_pitcher": away_pitcher
+        }
+    except Exception as e:
+        print(f"Error fetching pitchers for game {game_id}: {e}")
+        return {}
+
         "away": teams["away"]["pitchers"][0],
         "home": teams["home"]["pitchers"][0]
     }
-
 def get_player_stats(player_id, season="2024"):
     url = f"{BASE_URL}/people/{player_id}/stats?stats=season&season={season}&group=hitting"
     response = requests.get(url).json()
