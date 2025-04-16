@@ -39,9 +39,8 @@ for game in games:
     # Skip game if team filter is used
     if team_filter and team_filter.lower() not in (home_team + away_team).lower():
         continue
-
     # Get matchup pitcher info
-    matchup = next((p for p in pitchers if p["game_id"] == game["game_id"]), None)
+    matchup = next((p for p in pitchers if p["game_id"] == game["gamePk"]), None)
     home_pitcher = matchup["home_pitcher"] if matchup else None
     away_pitcher = matchup["away_pitcher"] if matchup else None
 
