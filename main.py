@@ -33,10 +33,9 @@ example_players = [
 
 # Loop through today’s games
 for game in games:
-    venue = game["venue"]
-    home_team = game["home_team"]
-    away_team = game["away_team"]
-
+    game_id = game["gamePk"]
+    home_team = game["teams"]["home"]["team"]["name"]
+    away_team = game["teams"]["away"]["team"]["name"]
     # Skip game if team filter is used
     if team_filter and team_filter.lower() not in (home_team + away_team).lower():
         continue
