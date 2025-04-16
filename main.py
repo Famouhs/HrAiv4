@@ -36,16 +36,14 @@ for game in games:
     game_id = game["gamePk"]
     home_team = game["teams"]["home"]["team"]["name"]
     away_team = game["teams"]["away"]["team"]["name"]
-    # Skip game if team filter is used
-    if team_filter and team_filter.lower() not in (home_team + away_team).lower():
-        continue
-    # Get matchup pitcher info
-    matchup = next((p for p in pitchers if p["game_id"] == game["gamePk"]), None)
-pitchers.append({
-    "game_id": game["gamePk"],
-    "home_pitcher": home_pitcher_name,
-    "away_pitcher": away_pitcher_name,
-})
+    venue = game["venue"]["name"]
+
+    matchup = next((p for p in pitchers if p["game_id"] == game_id), None)
+    home_pitcher = matchup["home_pitcher"] if matchup else None
+    away_pitcher = matchup["away_pitcher"] if matchup else None
+
+    # ✅ Correct indentation
+    weather = get_weather(venue)
     # Get venue data
     weather = get_weather(venue)
     park_factor = get_park_factor(venue)
