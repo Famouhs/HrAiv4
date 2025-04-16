@@ -41,9 +41,11 @@ for game in games:
         continue
     # Get matchup pitcher info
     matchup = next((p for p in pitchers if p["game_id"] == game["gamePk"]), None)
-    home_pitcher = matchup["home_pitcher"] if matchup else None
-    away_pitcher = matchup["away_pitcher"] if matchup else None
-
+pitchers.append({
+    "game_id": game["gamePk"],
+    "home_pitcher": home_pitcher_name,
+    "away_pitcher": away_pitcher_name,
+})
     # Get venue data
     weather = get_weather(venue)
     park_factor = get_park_factor(venue)
